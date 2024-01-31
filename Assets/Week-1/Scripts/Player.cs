@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
 
     void HandleRotation()
     {
+        //Calculate how far the mouse has moved since the previous frame
         mouseDeltaX = Input.mousePosition.x - lastMouseX;
 
         if (mouseDeltaX != 0)
