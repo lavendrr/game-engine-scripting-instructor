@@ -134,7 +134,6 @@ GameObject:
   - component: {fileID: 37891304}
   - component: {fileID: 37891307}
   - component: {fileID: 37891306}
-  - component: {fileID: 37891305}
   - component: {fileID: 37891308}
   m_Layer: 5
   m_Name: Calculator_Interface
@@ -181,19 +180,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 713.9552, y: 1051.8193}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &37891305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 37891303}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da34be831eb13b746962ccdf4cf0e491, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 2007928442}
 --- !u!114 &37891306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2511,7 +2497,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 37891305}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CalculatorGUI, Assembly-CSharp
         m_MethodName: FlipSignage
         m_Mode: 1
@@ -3312,7 +3298,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 37891305}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CalculatorGUI, Assembly-CSharp
         m_MethodName: AddInput
         m_Mode: 5
