@@ -1,0 +1,144 @@
+For this assignment you will be creating a bee simulator as demonstrated in this video
+
+The goal is to give you practice developing a system that is not crammed into a single script but rather spread out across several classes.
+The purpose of a class is to organize the code into defined objects to allow our codebase to be more manageable and understandable.
+
+We will be working with 3 classes: Bee Hive, Bee, and Flower
+
+Flowers will product nectar that can be collected by Bees.
+
+Bees will check Flowers for nectar and bring the nectar back to the Bee Hive.
+
+Bee Hives will create Bees as well as Honey assuming the Bee Hive has Nectar.
+
+There will also be opportunity for extra credit.
+
+First and foremost, make sure your project has a Week-4 folder with our standard sub-folders (Scripts, Scenes, Prefabs, Textures)
+
+Second we need to make sure our project is configured for 2D.
+
+Click Window at the top and select the Package Manager.
+
+When the Package Manager opens up select Unity Registry from the drop down at the top left of the Package Manager window.
+
+Then select 2D and on the right make sure it says Remove and not Install/Download. If it says Install/Download then click that to Install/Download to your project.
+
+
+
+
+
+
+
+This will allow you to create 2D objects in 3D space.
+
+When you create your objects, make sure their z position on the Transform is set to 0 so it appears in front of the camera. You might have to make sure the X and Y are also in the view of the camera as well. If in doubt make sure the Camera has a position of (0,0,-10) and your 2D object has a position of (0,0,0).
+
+
+
+
+Below are the requirements of what each object is supposed to do. If you implement the below requirements then you will get a system that functions like the system presented in the video.
+
+
+
+
+Flower.cs
+
+Flower needs to have a rate of nectar production. You can create a float and set it to any value you want. When the timer is done counting down it will produce the nectar.
+In the update it should check if the flower has nectar and if it does not then it needs to count. You probably need a separate float variable to handle counting. When the counter reaches the production rate then the nectar can be produced.
+The flower needs to track if it has nectar or not. This can be a simple bool. If the flower has nectar then set the bool to true. Otherwise if there is no nectar then set it to false.
+The flower needs a way to change the color of the image so you will need to get the SpriteRenderer component.
+The flower needs to have 2 colors that can be set in the inspector. 1 color for if nectar is ready. 1 color if nectar is not ready.
+The flower needs to have a way to communicate to Bees that there is nectar available (create a public bool function)
+The flower needs a way to allow the Bees to "take" the nectar and if they are able to take nectar return true. If there was no nectar available return false (create a public bool function)
+When the bees take the nectar they won't actually take anything. The flower will change the value of the nectar bool and the bee will just go back to the hive. Read the next section for more info about that.
+Don't forget to reset the time so that the flower starts counting to produce the next nectar
+You can change the color of the flower if a bee successfully takes nectar and you can change the color again when the flower produces nectar
+
+Hive.cs
+
+Hive needs to have a rate of honey production. You can create a float and set it to any value you want. When the timer is done counting down it will produce honey.
+IT SHOULD ONLY COUNT DOWN IF IT HAS NECTAR
+Hive needs to have a starting number of bees as well.
+Hive needs to have a reference to a bee prefab.
+Hive needs to track how much nectar it has (int)
+Hive needs to track how much honey it has (int)
+Hive needs a timer variable as well to handle counting the time
+When the game starts the hive needs to Instantiate as many bees as are specified in the starting number of bees variable
+The hive needs to get the Bee component on the created be and call the Init function.
+The hive needs to pass itself as a reference into the Init function (more on this in the Bee.cs section)
+The hive needs to count down to try and produce honey if it has any nectar stored
+It should only count down if there is nectar
+When the count down is finished it should remove 1 nectar and add 1  honey
+It should  also check if there is more nectar and reset the timer if that is the case
+The hive needs a way for Bees to give the hive nectar. Create a public function called GiveNectar
+Increment the nectar stored and if we aren't counting down to produce honey, then start counting down.
+
+Bee.cs
+
+Bee needs a way to know which Hive created it. Create a private Hive variable
+Bee needs a way for a Hive to tell the Bee that the Bee was created by the Hive. Create a public function called Init that requires a Hive as an argument ( Init(Hive hive))
+Make sure you assign the passed in Hive to the Hive variable you created
+Create a function called CheckAnyFlower. The bee needs to search for the Flowers in the level, fly to the flower, and when it gets there call the GetNectar function you created in the Flower class.
+If the flower returned true (as in it had nectar) then go to the hive and call the GiveNectar function when the bee gets there
+Moving the bee to a flower or hive might be a challenge so I will make it easier for you. Add Dotween to your project from the asset store https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676 
+After you install it you will get the Dotween Utility Panel window. Click the green Setup Dotween button and proceed to set it up. Just click ok.
+At the top of your Bee.cs script add "using DG.Tweening;" this will allow you to animate the bee between locations really easily.
+When it is time to fly to a flower you can use the below code
+Before you call this code you will need to find a flower to check using "FindObjectsByType<Flower>FindObjectsSortMode.None)" which will return an array of flowers. You can randomly pick one. Whichever one you pick you need to replace "flower.transform.position" with the reference to the one you pick and get the transform.position of that Flower.
+
+
+transform.DOMove(flower.transform.position, 1f).OnComplete(() =>
+{
+        //Take nectar from flower
+        //If flower returned nectar then go back to the hive and give hive nectar
+        //If flower did not return nectar then go check another flower
+                
+}).SetEase(Ease.Linear);
+
+
+You can use similar code to fly the bee to the hive and instead of having the bee check a flower for nectar, you can write code to use the GiveNectar function
+The bee doesn't actually to track if it is carrying any nectar. The behavior is defined by if the flower returned nectar or not.
+After the bee delivers the nectar to the hive it needs to go and try to collect nectar for more flowers
+
+
+
+
+Implement all of the above to get full credit.
+
+Opportunity for extra credit (up to 5 extra credit points)
+---------------------------------------
+Farmer.cs (1 pt)
+
+Create a new farmer class who will go through the hives on a loop to check for honey.
+
+The farmer needs to move around just like the bees do
+When honey is collected the Hive needs to set the amount of honey it has to 0
+
+Hive.cs (1 pt)
+
+Allow for the hive to create more bees with honey
+
+Periodically have a new bee generated from a hive (pretend larvae was laid and the larvae is eating the honey to turn into a bee)
+
+Flower.cs (1 pt)
+
+Periodically have new flowers be created.
+Each flower can have a chance to create a new flower. The flower needs to create the new flower and position the new flower randomly around which ever flower created it. Flowers should not be stacked on top of each other
+
+UI elements (1 pt)
+
+Create ways to show more information about how much honey a hive has, how much honey the farmer has collected
+
+
+Sound Effects (1 pt)
+
+Add sound effects for the various activities
+You can find sound effects on freesound.org or the asset store or just google free video game sound effects
+
+As a part of your submission indicate which if any opportunities for extra credit you decided to implement.
+
+
+
+Advice for this assignment. Start early, seek help sooner than later. Schedule time with the tutor. They have this assignment solution and assignment criteria. Ask questions on MS Teams. Paste code snippets or pictures.
+
+Submit your GitHub project URL when complete.
